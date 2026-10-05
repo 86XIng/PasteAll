@@ -187,6 +187,111 @@ final class PasteCoordinator: ObservableObject {
         }
     }
 
+    /// Handles the Finder context menu: writes the converted clipboard straight
+    /// into the folder, without touching the clipboard or replaying keystrokes.
+    func handleFinderMenuRequest(_ request: FinderPasteRequest) {
+        guard settings.isEnabled else {
+            finderMenuLog.notice("Ignored request: PasteAll is disabled")
+            errors.show(String(localized: "error.disabled"))
+            return
+        }
+        // FinderPasteReceiver authenticates the extension before calling this.
+        // Focus may change during launch; it is not an authentication signal.
+        guard !isHandlingPaste else {
+            finderMenuLog.notice("Ignored request: another paste is in progress")
+            return
+        }
+        guard let directory = Self.destinationDirectory(for: request) else {
+            finderMenuLog.error("No writable destination for \(request.containerPath, privacy: .private)")
+            errors.show(String(localized: "error.destination"))
+            return
+        }
+
+        let snapshot = ClipboardSnapshot(pasteboard: .general)
+        let candidates = detector.candidates(
+            for: snapshot,
+            mode: settings.detectionMode,
+            preferredURLFormat: settings.shortcutFormat
+        )
+        guard !candidates.isEmpty else {
+            finderMenuLog.notice("No convertible clipboard content")
+            errors.show(String(localized: "error.unsupported"))
+            return
+        }
+        finderMenuLog.info("Converting clipboard as \(candidates[0].kind.rawValue, privacy: .public) (\(candidates.count, privacy: .public) candidates)")
+        isHandlingPaste = true
+
+        if request.choosesFormat || settings.detectionMode == .askEveryTime {
+            picker.choose(from: candidates) { [weak self] candidate in
+                guard let self else { return }
+                self.activateFinder()
+                guard let candidate else {
+                    self.isHandlingPaste = false
+                    return
+                }
+                self.write(candidate, into: directory)
+            }
+        } else {
+            write(candidates[0], into: directory)
+        }
+    }
+
+    private func write(_ candidate: ConversionCandidate, into directory: URL) {
+        let destination: URL
+        do {
+            destination = try CacheStore.reserveFile(
+                for: candidate.kind,
+                in: directory,
+                permissions: S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH
+            ) { key in
+                NSLocalizedString(key, comment: "Generated filename stem")
+            }
+        } catch {
+            finderMenuLog.error("Could not reserve a file: \(error.localizedDescription, privacy: .public)")
+            isHandlingPaste = false
+            errors.show(localizedMessage(for: error))
+            return
+        }
+
+        let generator = self.generator
+        Task { [weak self] in
+            do {
+                try await Task.detached(priority: .userInitiated) {
+                    try generator.generate(candidate, at: destination)
+                }.value
+                finderMenuLog.info("Wrote \(destination.lastPathComponent, privacy: .private)")
+            } catch {
+                finderMenuLog.error("Generation failed: \(error.localizedDescription, privacy: .public)")
+                try? FileManager.default.removeItem(at: destination)
+                if let self { errors.show(localizedMessage(for: error)) }
+            }
+            self?.isHandlingPaste = false
+        }
+    }
+
+    /// A single right-clicked folder is the destination; otherwise the folder
+    /// the Finder window shows. Packages such as .app bundles count as files.
+    static func destinationDirectory(
+        for request: FinderPasteRequest,
+        fileManager: FileManager = .default
+    ) -> URL? {
+        func directory(atPath path: String) -> URL? {
+            guard path.hasPrefix("/") else { return nil }
+            let url = URL(fileURLWithPath: path).standardizedFileURL
+            guard let values = try? url.resourceValues(forKeys: [.isDirectoryKey, .isPackageKey]),
+                  values.isDirectory == true,
+                  values.isPackage != true,
+                  fileManager.isWritableFile(atPath: url.path)
+            else { return nil }
+            return url
+        }
+
+        if request.selectedPaths.count == 1, let selected = directory(atPath: request.selectedPaths[0]) {
+            return selected
+        }
+        return directory(atPath: request.containerPath)
+    }
+
     private func activateFinder() {
         NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.finder")
             .first?.activate(options: [])
@@ -202,6 +307,8 @@ final class PasteCoordinator: ObservableObject {
             String(localized: "error.pasteboard")
         case PasteAllError.invalidTable:
             String(localized: "error.table")
+        case PasteAllError.cannotWriteDestination:
+            String(localized: "error.destination")
         default:
             String(localized: "error.generation")
         }

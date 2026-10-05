@@ -8,6 +8,8 @@ struct PasteAllApp: App {
     @StateObject private var settings = SettingsStore.shared
     @StateObject private var accessibility = AccessibilityController.shared
     @StateObject private var coordinator = PasteCoordinator.shared
+    @StateObject private var updates = UpdateController.shared
+    @StateObject private var finderExtension = FinderExtensionController.shared
 
     var body: some Scene {
         MenuBarExtra {
@@ -22,18 +24,55 @@ struct PasteAllApp: App {
         .menuBarExtraStyle(.menu)
 
         Settings {
-            SettingsView(settings: settings, accessibility: accessibility)
+            SettingsView(
+                settings: settings,
+                accessibility: accessibility,
+                updates: updates,
+                finderExtension: finderExtension
+            )
         }
     }
 }
 
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
+    private let finderPasteReceiver = FinderPasteReceiver {
+        PasteCoordinator.shared.handleFinderMenuRequest($0)
+    }
+
+    func applicationWillFinishLaunching(_ notification: Notification) {
+        finderPasteReceiver.start()
+    }
+
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.accessory)
         PasteCoordinator.shared.refreshMonitoring()
+        let updated = UpdateController.shared.recordLaunch()
+        UpdateController.shared.startAutomaticChecks()
+        finderPasteReceiver.finishLaunching()
         DispatchQueue.main.async {
-            OnboardingWindowController.shared.presentIfNeeded()
+            // A Finder action can launch the app without needing onboarding or
+            // Accessibility. Keep its file operation and picker in focus.
+            guard !self.finderPasteReceiver.receivedLaunchRequest else { return }
+            if updated, !SettingsStore.shared.shouldShowOnboarding, !AccessibilityController.shared.isTrusted {
+                self.presentPermissionRepair()
+            } else {
+                OnboardingWindowController.shared.presentIfNeeded()
+            }
+        }
+    }
+
+    /// Updates of builds without a Developer ID signature invalidate the
+    /// Accessibility approval, so explain why and offer to redo it in one step.
+    private func presentPermissionRepair() {
+        let alert = NSAlert()
+        alert.messageText = String(localized: "repair.title")
+        alert.informativeText = String(localized: "repair.message")
+        alert.addButton(withTitle: String(localized: "repair.reauthorize"))
+        alert.addButton(withTitle: String(localized: "repair.later"))
+        NSApp.activate(ignoringOtherApps: true)
+        if alert.runModal() == .alertFirstButtonReturn {
+            AccessibilityController.shared.requestPermission()
         }
     }
 }
@@ -70,6 +109,12 @@ private struct MenuBarContent: View {
             Label("menu.guide", systemImage: "questionmark.circle")
         }
 
+        Button {
+            UpdateController.shared.checkNow()
+        } label: {
+            Label("menu.checkUpdates", systemImage: "arrow.triangle.2.circlepath")
+        }
+
         SettingsLink {
             Label("menu.settings", systemImage: "gear")
         }
@@ -85,6 +130,8 @@ private struct MenuBarContent: View {
 private struct SettingsView: View {
     @ObservedObject var settings: SettingsStore
     @ObservedObject var accessibility: AccessibilityController
+    @ObservedObject var updates: UpdateController
+    @ObservedObject var finderExtension: FinderExtensionController
     @State private var isRecordingShortcut = false
 
     var body: some View {
@@ -162,6 +209,34 @@ private struct SettingsView: View {
                     .font(.caption)
             }
 
+            Section("settings.finder") {
+                HStack {
+                    Label(
+                        finderExtension.isEnabled ? "finder.enabled" : "finder.disabled",
+                        systemImage: finderExtension.isEnabled ? "checkmark.circle.fill" : "contextualmenu.and.cursorarrow"
+                    )
+                    Spacer()
+                    if !finderExtension.isEnabled {
+                        Button("finder.enable") { finderExtension.enable() }
+                    }
+                }
+                Text("finder.explanation")
+                    .foregroundStyle(.secondary)
+                    .font(.caption)
+            }
+
+            Section("settings.updates") {
+                Toggle("update.automatic", isOn: $updates.automaticallyChecks)
+                HStack {
+                    Text(lastCheckDescription)
+                        .foregroundStyle(.secondary)
+                        .font(.caption)
+                    Spacer()
+                    Button("update.checkNow") { updates.checkNow() }
+                        .disabled(updates.isChecking)
+                }
+            }
+
             Section("settings.guide") {
                 HStack {
                     Text("settings.guide.explanation")
@@ -193,8 +268,22 @@ private struct SettingsView: View {
             }
         }
         .formStyle(.grouped)
-        .frame(width: 520, height: 540)
+        .frame(width: 520, height: 620)
+        .onAppear { finderExtension.refresh() }
         .navigationTitle("app.name")
+    }
+
+    private var lastCheckDescription: String {
+        let version = String.localizedStringWithFormat(
+            String(localized: "update.currentVersion"),
+            UpdateController.currentVersion
+        )
+        guard let lastCheck = updates.lastCheck else { return version }
+        let checked = String.localizedStringWithFormat(
+            String(localized: "update.lastChecked"),
+            lastCheck.formatted(date: .abbreviated, time: .shortened)
+        )
+        return "\(version) · \(checked)"
     }
 
     private func openLicense(named resourceName: String) {

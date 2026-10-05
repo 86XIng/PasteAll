@@ -18,7 +18,7 @@ public final class CacheStore: @unchecked Sendable {
                 throw PasteAllError.cannotCreateCache
             }
             self.directory = caches
-                .appendingPathComponent("com.local.PasteAll", isDirectory: true)
+                .appendingPathComponent(Bundle.main.bundleIdentifier ?? "PasteAll", isDirectory: true)
                 .appendingPathComponent("PreparedFiles", isDirectory: true)
         }
         try prepareDirectory()
@@ -56,17 +56,45 @@ public final class CacheStore: @unchecked Sendable {
         at date: Date = Date(),
         localizedStem: (String) -> String
     ) throws -> URL {
+        do {
+            return try Self.reserveFile(
+                for: kind,
+                in: directory,
+                at: date,
+                permissions: S_IRUSR | S_IWUSR,
+                localizedStem: localizedStem
+            )
+        } catch {
+            throw PasteAllError.cannotCreateCache
+        }
+    }
+
+    /// Atomically claims an unused generated filename in `directory` by creating
+    /// an empty file, so concurrent writers can never pick the same name.
+    public static func reserveFile(
+        for kind: OutputKind,
+        in directory: URL,
+        at date: Date = Date(),
+        permissions: mode_t,
+        localizedStem: (String) -> String
+    ) throws -> URL {
         while true {
-            let fileURL = destination(for: kind, at: date, localizedStem: localizedStem)
+            let name = FilenameGenerator().filename(
+                for: kind,
+                at: date,
+                in: directory,
+                localizedStem: localizedStem
+            )
+            let fileURL = directory.appendingPathComponent(name)
             let descriptor = fileURL.path.withCString {
-                open($0, O_WRONLY | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR)
+                open($0, O_WRONLY | O_CREAT | O_EXCL, permissions)
             }
             if descriptor >= 0 {
                 close(descriptor)
                 return fileURL
             }
             guard errno == EEXIST else {
-                throw PasteAllError.cannotCreateCache
+                throw PasteAllError.cannotWriteDestination
             }
         }
     }

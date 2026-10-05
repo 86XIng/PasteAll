@@ -10,14 +10,25 @@ final class ErrorPresenter {
         let view = HStack(spacing: 10) {
             Image(systemName: "exclamationmark.triangle.fill")
                 .foregroundStyle(.orange)
-            Text(message).lineLimit(3)
+            Text(message)
+                .lineLimit(3)
+                .fixedSize(horizontal: false, vertical: true)
         }
         .padding(14)
         .frame(width: 340, alignment: .leading)
+        // The window is transparent; without a backing the text would sit
+        // directly on whatever is behind it, unreadable in dark mode.
+        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 12))
+        .overlay {
+            RoundedRectangle(cornerRadius: 12)
+                .strokeBorder(Color.primary.opacity(0.12), lineWidth: 0.5)
+        }
 
         let hosting = NSHostingController(rootView: view)
+        hosting.sizingOptions = []
+        let size = hosting.sizeThatFits(in: NSSize(width: 340, height: CGFloat.greatestFiniteMagnitude))
         let panel = NSPanel(
-            contentRect: NSRect(x: 0, y: 0, width: 340, height: 72),
+            contentRect: NSRect(origin: .zero, size: size),
             styleMask: [.borderless],
             backing: .buffered,
             defer: false
@@ -37,6 +48,7 @@ final class ErrorPresenter {
         origin.y = min(max(origin.y, visibleFrame.minY), visibleFrame.maxY - panel.frame.height)
         panel.setFrameOrigin(origin)
         panel.orderFrontRegardless()
+        panel.invalidateShadow()
         self.panel = panel
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self, weak panel] in
             panel?.orderOut(nil)

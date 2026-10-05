@@ -8,20 +8,29 @@
 
 /* Begin PBXBuildFile section */
 		034F8F283C059B508070211E /* FinderPasteEventTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEF27B0632805CCA79CDCCD /* FinderPasteEventTap.swift */; };
+		1351AA69D1C6DE828C73823B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BED9F3EE54D54F1640E96602 /* Localizable.strings */; };
+		153ED6BF4407294FDAB56627 /* CandidatePickerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF1A24257369EBAAD59AC76 /* CandidatePickerTests.swift */; };
+		185B0BEEB4FCC08CB7A4A967 /* UpdateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3C25421BFFF0399D575349 /* UpdateController.swift */; };
 		1B60AB6F12E5080C0A74D447 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 405BD83F7388148868801488 /* Assets.xcassets */; };
 		1D2A0A76EB53F25EAE8F9BA5 /* HTMLTableParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAE1D740AC6F4BC185AEFE1 /* HTMLTableParserTests.swift */; };
 		1EFFEF026CF542DDE281D739 /* DelimitedTextParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D32C43A3B57E3D265EAEE8A /* DelimitedTextParserTests.swift */; };
 		294DAE58F5AE409674D3DD59 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA2CB74FB083269E0B5E8827 /* Localizable.strings */; };
 		2ABCCD14CF9A2D7E17BCB7B3 /* SwiftSoup-LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 614D7E57E93A717F8C4CEE17 /* SwiftSoup-LICENSE.txt */; };
+		34B2AE7DE26068018FC6BEB7 /* FinderPasteRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4783DA8F448D8AAE0B489D7 /* FinderPasteRequestTests.swift */; };
 		34C85FC81FAB64A858608DFA /* PasteAllCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD46A7430C90872E58C81B8D /* PasteAllCore.framework */; };
+		3D6DE1BE27FDDA77EC9AEF4B /* UpdateCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0532B771E5E9227FEBD8BA /* UpdateCheck.swift */; };
+		4316E4A305B7BCF951B14767 /* FinderPasteReceiverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F2F447AD841A3856F09584 /* FinderPasteReceiverTests.swift */; };
 		46ADFBA2D4AC5AA4DC1798E3 /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12C2590A4BC36AE05673CC4 /* SettingsStore.swift */; };
 		4968D51A75090285047E39A7 /* PasteAllCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FD46A7430C90872E58C81B8D /* PasteAllCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		49759CA41852AB3C86CBFF48 /* SettingsStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CBD08A2CB52301D6BF0684 /* SettingsStoreTests.swift */; };
 		51984F4AFD80AE728162DFF0 /* ShortcutRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B76FE234C8847A7EB6BCAC2 /* ShortcutRecorder.swift */; };
+		567C5B3DC8505BCAB7A0B572 /* FinderPasteRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6215E5DF65AA542E5DE3CB /* FinderPasteRequest.swift */; };
+		571DC0B36923ED400DC5BD43 /* PasteAllFinderExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 07E3CA4F649C54177F216729 /* PasteAllFinderExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		58EA978691E9E2A99CDDE1A2 /* OnboardingProgressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0910841580F7304547C15EB /* OnboardingProgressTests.swift */; };
 		5A0D81AE81B201406CE37968 /* ClipboardRestorationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46961F6AE6653CB111AEECAF /* ClipboardRestorationPolicy.swift */; };
 		5B5E81680E22D0BD23540171 /* ErrorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103772533121AD7D49BB125A /* ErrorPresenter.swift */; };
 		637ECE0FC8E3DC9BB4E1A29D /* ContentDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB749709DDFB173D65AB03A /* ContentDetector.swift */; };
+		737AA95C86B4F99E42577177 /* FinderPasteReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 979DF3626C7BBE545701BD57 /* FinderPasteReceiver.swift */; };
 		73EB78EB4E3E1990DE604A50 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 2CE8618A064BB540C1B8964A /* SwiftSoup */; };
 		7AA95D9D03BE032FF9C23CD8 /* PasteShortcutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781CEE0E422FC8B9886F2309 /* PasteShortcutTests.swift */; };
 		85C1BE15FBE3558D47F5237B /* CandidatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96EC72632CCE43E22F998EC /* CandidatePicker.swift */; };
@@ -31,11 +40,16 @@
 		9E51AFD0DF303AFCB580CAFA /* AccessibilityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB6576AB12ECDB496EA1C42 /* AccessibilityController.swift */; };
 		A513B771D0E3D8F22573A5D8 /* PasteCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F4A971B172EBACC6C371D0 /* PasteCoordinator.swift */; };
 		B02EA94682BB68C6A6483E29 /* OnboardingWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9B569138D41A66AA4F603B /* OnboardingWindowController.swift */; };
+		B2610D545FDEC86CF2850A92 /* CacheStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E83ABEFC585BB96F557DC0 /* CacheStoreTests.swift */; };
+		B5CADD0AD28C3B1500A3BD2D /* FinderExtensionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D479BAA9D2F552582E288365 /* FinderExtensionController.swift */; };
+		B78AA1810D0AB6EBB6E5BAE3 /* FinderPasteRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6215E5DF65AA542E5DE3CB /* FinderPasteRequest.swift */; };
 		B78DC5BC126AE995BD7C6AAA /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9205D85671F6BF5CD452D132 /* Models.swift */; };
 		B8E6464C97CFA43B8BE4F4C8 /* libxlsxwriter-LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = BBB41367E10AA8190C41E657 /* libxlsxwriter-LICENSE.txt */; };
 		BD2A4901B865026625AF97C3 /* PasteAllCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD46A7430C90872E58C81B8D /* PasteAllCore.framework */; };
 		BE62C3BBA9760390364C4202 /* PasteAllApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D71F430902AF49821140AE /* PasteAllApp.swift */; };
 		C3064918DC9AB5E48BA2435C /* FileGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61532001CB2041291D1D90B /* FileGeneratorTests.swift */; };
+		CF3165F679E59DB610F4730C /* UpdateCheckTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7055DA2A24CB1AA023BFA9DD /* UpdateCheckTests.swift */; };
+		E1061A6092A500ACF7927DE9 /* FinderSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5762BA9DDDEE7BD0B527F4 /* FinderSync.swift */; };
 		E2ACAF1F29CA5BB603864E20 /* ClipboardSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D569959CE2FE21EA23AAA30 /* ClipboardSnapshot.swift */; };
 		E334FA3C011511509FA49CB0 /* PasteShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = D676A73C4981A0C4A6675EE4 /* PasteShortcut.swift */; };
 		E88C616B9B2CC6FA9DA8A58E /* FilenameGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D224BEDA2A7738BD1F6C4A3A /* FilenameGenerator.swift */; };
@@ -47,6 +61,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		11D44DAA583F9455FD44DA75 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0B7F2ABD45B1EDCCC2D965CD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 781DE0E82CE4915A09BB048C;
+			remoteInfo = PasteAllFinderExtension;
+		};
 		1A89B3E41EE087EA001B35CA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0B7F2ABD45B1EDCCC2D965CD /* Project object */;
@@ -71,6 +92,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		62AE32DC75AD413B58F4C610 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				571DC0B36923ED400DC5BD43 /* PasteAllFinderExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A2E96A901878C47FE4455D16 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -96,6 +128,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		07E3CA4F649C54177F216729 /* PasteAllFinderExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PasteAllFinderExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		0893C886E6351327131E0147 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		0BAE1D740AC6F4BC185AEFE1 /* HTMLTableParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLTableParserTests.swift; sourceTree = "<group>"; };
 		0D569959CE2FE21EA23AAA30 /* ClipboardSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardSnapshot.swift; sourceTree = "<group>"; };
 		103772533121AD7D49BB125A /* ErrorPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorPresenter.swift; sourceTree = "<group>"; };
@@ -108,26 +142,40 @@
 		405BD83F7388148868801488 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		46961F6AE6653CB111AEECAF /* ClipboardRestorationPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardRestorationPolicy.swift; sourceTree = "<group>"; };
 		51CBD08A2CB52301D6BF0684 /* SettingsStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStoreTests.swift; sourceTree = "<group>"; };
+		5B0532B771E5E9227FEBD8BA /* UpdateCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateCheck.swift; sourceTree = "<group>"; };
+		5BF1A24257369EBAAD59AC76 /* CandidatePickerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandidatePickerTests.swift; sourceTree = "<group>"; };
+		5F5762BA9DDDEE7BD0B527F4 /* FinderSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinderSync.swift; sourceTree = "<group>"; };
 		5FB749709DDFB173D65AB03A /* ContentDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentDetector.swift; sourceTree = "<group>"; };
 		614D7E57E93A717F8C4CEE17 /* SwiftSoup-LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "SwiftSoup-LICENSE.txt"; sourceTree = "<group>"; };
+		7055DA2A24CB1AA023BFA9DD /* UpdateCheckTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateCheckTests.swift; sourceTree = "<group>"; };
 		73F4A971B172EBACC6C371D0 /* PasteCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteCoordinator.swift; sourceTree = "<group>"; };
 		781CEE0E422FC8B9886F2309 /* PasteShortcutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteShortcutTests.swift; sourceTree = "<group>"; };
 		7D32C43A3B57E3D265EAEE8A /* DelimitedTextParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DelimitedTextParserTests.swift; sourceTree = "<group>"; };
 		7F26467F9906A3E93D43DC96 /* DelimitedTextParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DelimitedTextParser.swift; sourceTree = "<group>"; };
 		9205D85671F6BF5CD452D132 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		9291B7A045EBA5192D9EAB4D /* PasteAllFinderExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PasteAllFinderExtension.entitlements; sourceTree = "<group>"; };
+		979DF3626C7BBE545701BD57 /* FinderPasteReceiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinderPasteReceiver.swift; sourceTree = "<group>"; };
 		A316F5C633886BD69655EA26 /* PasteAllTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PasteAllTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5D71F430902AF49821140AE /* PasteAllApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteAllApp.swift; sourceTree = "<group>"; };
+		A66ACB0B9A7B838BFFB6E93D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		B8D22BEB0D9A97001C4A97F7 /* PasteAll.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PasteAll.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA2775D966D61B8AAB4386A0 /* PasteAllCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PasteAllCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBB41367E10AA8190C41E657 /* libxlsxwriter-LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "libxlsxwriter-LICENSE.txt"; sourceTree = "<group>"; };
+		BC6215E5DF65AA542E5DE3CB /* FinderPasteRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinderPasteRequest.swift; sourceTree = "<group>"; };
+		BEB89E438C06C491085E30B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		C61532001CB2041291D1D90B /* FileGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileGeneratorTests.swift; sourceTree = "<group>"; };
 		C7AD09D48838D615877FC123 /* HTMLTableParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLTableParser.swift; sourceTree = "<group>"; };
 		C96EC72632CCE43E22F998EC /* CandidatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandidatePicker.swift; sourceTree = "<group>"; };
 		CFB6576AB12ECDB496EA1C42 /* AccessibilityController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityController.swift; sourceTree = "<group>"; };
 		D0910841580F7304547C15EB /* OnboardingProgressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingProgressTests.swift; sourceTree = "<group>"; };
 		D224BEDA2A7738BD1F6C4A3A /* FilenameGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilenameGenerator.swift; sourceTree = "<group>"; };
+		D479BAA9D2F552582E288365 /* FinderExtensionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinderExtensionController.swift; sourceTree = "<group>"; };
 		D676A73C4981A0C4A6675EE4 /* PasteShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteShortcut.swift; sourceTree = "<group>"; };
 		E0AECC11E73EB51FA6FA5431 /* CacheStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheStore.swift; sourceTree = "<group>"; };
+		E4783DA8F448D8AAE0B489D7 /* FinderPasteRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinderPasteRequestTests.swift; sourceTree = "<group>"; };
+		E4F2F447AD841A3856F09584 /* FinderPasteReceiverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinderPasteReceiverTests.swift; sourceTree = "<group>"; };
+		E8E83ABEFC585BB96F557DC0 /* CacheStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheStoreTests.swift; sourceTree = "<group>"; };
+		EF3C25421BFFF0399D575349 /* UpdateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateController.swift; sourceTree = "<group>"; };
 		F1160926A2FF8D5A6A5C22F2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F12C2590A4BC36AE05673CC4 /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
 		FC9B569138D41A66AA4F603B /* OnboardingWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWindowController.swift; sourceTree = "<group>"; };
@@ -166,11 +214,13 @@
 		08BB97BCEC1EA95BE1E2D8F3 /* PasteAllCoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				E8E83ABEFC585BB96F557DC0 /* CacheStoreTests.swift */,
 				3022D0A4FBA4178C1A4E189F /* ContentDetectorTests.swift */,
 				7D32C43A3B57E3D265EAEE8A /* DelimitedTextParserTests.swift */,
 				C61532001CB2041291D1D90B /* FileGeneratorTests.swift */,
 				0BAE1D740AC6F4BC185AEFE1 /* HTMLTableParserTests.swift */,
 				D0910841580F7304547C15EB /* OnboardingProgressTests.swift */,
+				7055DA2A24CB1AA023BFA9DD /* UpdateCheckTests.swift */,
 			);
 			name = PasteAllCoreTests;
 			path = Tests/PasteAllCoreTests;
@@ -182,6 +232,7 @@
 				B8D22BEB0D9A97001C4A97F7 /* PasteAll.app */,
 				FD46A7430C90872E58C81B8D /* PasteAllCore.framework */,
 				BA2775D966D61B8AAB4386A0 /* PasteAllCoreTests.xctest */,
+				07E3CA4F649C54177F216729 /* PasteAllFinderExtension.appex */,
 				A316F5C633886BD69655EA26 /* PasteAllTests.xctest */,
 			);
 			name = Products;
@@ -202,8 +253,10 @@
 				D4694382CB92DA748AEE02FB /* PasteAll */,
 				FA1F7D604C144AD6A20929BB /* PasteAllCore */,
 				08BB97BCEC1EA95BE1E2D8F3 /* PasteAllCoreTests */,
+				A2C1103501DC3371D6A85CBC /* PasteAllFinderExtension */,
 				9617A306358AD52C2C4349B4 /* PasteAllTests */,
 				B22B89061667198D8D38A3FB /* Resources */,
+				B8712ECD5BB45A6F02BB6307 /* Resources */,
 				2CA0481DF7BDDDA8220E5879 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -211,11 +264,25 @@
 		9617A306358AD52C2C4349B4 /* PasteAllTests */ = {
 			isa = PBXGroup;
 			children = (
+				5BF1A24257369EBAAD59AC76 /* CandidatePickerTests.swift */,
+				E4F2F447AD841A3856F09584 /* FinderPasteReceiverTests.swift */,
+				E4783DA8F448D8AAE0B489D7 /* FinderPasteRequestTests.swift */,
 				781CEE0E422FC8B9886F2309 /* PasteShortcutTests.swift */,
 				51CBD08A2CB52301D6BF0684 /* SettingsStoreTests.swift */,
 			);
 			name = PasteAllTests;
 			path = Tests/PasteAllTests;
+			sourceTree = "<group>";
+		};
+		A2C1103501DC3371D6A85CBC /* PasteAllFinderExtension */ = {
+			isa = PBXGroup;
+			children = (
+				5F5762BA9DDDEE7BD0B527F4 /* FinderSync.swift */,
+				BEB89E438C06C491085E30B6 /* Info.plist */,
+				9291B7A045EBA5192D9EAB4D /* PasteAllFinderExtension.entitlements */,
+			);
+			name = PasteAllFinderExtension;
+			path = Sources/PasteAllFinderExtension;
 			sourceTree = "<group>";
 		};
 		B22B89061667198D8D38A3FB /* Resources */ = {
@@ -228,6 +295,15 @@
 			path = Sources/PasteAll/Resources;
 			sourceTree = "<group>";
 		};
+		B8712ECD5BB45A6F02BB6307 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				BED9F3EE54D54F1640E96602 /* Localizable.strings */,
+			);
+			name = Resources;
+			path = Sources/PasteAllFinderExtension/Resources;
+			sourceTree = "<group>";
+		};
 		D4694382CB92DA748AEE02FB /* PasteAll */ = {
 			isa = PBXGroup;
 			children = (
@@ -235,13 +311,17 @@
 				405BD83F7388148868801488 /* Assets.xcassets */,
 				C96EC72632CCE43E22F998EC /* CandidatePicker.swift */,
 				103772533121AD7D49BB125A /* ErrorPresenter.swift */,
+				D479BAA9D2F552582E288365 /* FinderExtensionController.swift */,
 				3AEF27B0632805CCA79CDCCD /* FinderPasteEventTap.swift */,
+				979DF3626C7BBE545701BD57 /* FinderPasteReceiver.swift */,
+				BC6215E5DF65AA542E5DE3CB /* FinderPasteRequest.swift */,
 				FC9B569138D41A66AA4F603B /* OnboardingWindowController.swift */,
 				A5D71F430902AF49821140AE /* PasteAllApp.swift */,
 				73F4A971B172EBACC6C371D0 /* PasteCoordinator.swift */,
 				D676A73C4981A0C4A6675EE4 /* PasteShortcut.swift */,
 				F12C2590A4BC36AE05673CC4 /* SettingsStore.swift */,
 				2B76FE234C8847A7EB6BCAC2 /* ShortcutRecorder.swift */,
+				EF3C25421BFFF0399D575349 /* UpdateController.swift */,
 			);
 			name = PasteAll;
 			path = Sources/PasteAll;
@@ -260,6 +340,7 @@
 				C7AD09D48838D615877FC123 /* HTMLTableParser.swift */,
 				9205D85671F6BF5CD452D132 /* Models.swift */,
 				1E2685AF163188DC434592D0 /* OnboardingProgress.swift */,
+				5B0532B771E5E9227FEBD8BA /* UpdateCheck.swift */,
 			);
 			name = PasteAllCore;
 			path = Sources/PasteAllCore;
@@ -306,6 +387,24 @@
 			productReference = A316F5C633886BD69655EA26 /* PasteAllTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		781DE0E82CE4915A09BB048C /* PasteAllFinderExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B97B96737845FFB08FA97857 /* Build configuration list for PBXNativeTarget "PasteAllFinderExtension" */;
+			buildPhases = (
+				CA5ADFC63F21F32E7165FD25 /* Sources */,
+				1A30A71EA32CE2612A4FC6D1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PasteAllFinderExtension;
+			packageProductDependencies = (
+			);
+			productName = PasteAllFinderExtension;
+			productReference = 07E3CA4F649C54177F216729 /* PasteAllFinderExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		81F1208700921F306CE28A0A /* PasteAll */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E41A030C96C777B4AC4B4564 /* Build configuration list for PBXNativeTarget "PasteAll" */;
@@ -313,12 +412,14 @@
 				9CE577331297506E0015FEB1 /* Sources */,
 				3AAA2F1CCE8BB56E6B10583C /* Resources */,
 				7108D4DFCFAFA70BBB5E9707 /* Frameworks */,
+				62AE32DC75AD413B58F4C610 /* Embed Foundation Extensions */,
 				A2E96A901878C47FE4455D16 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				57238303B09BBB1FA664B574 /* PBXTargetDependency */,
+				1DB22983AF076B1D2E4F9123 /* PBXTargetDependency */,
 			);
 			name = PasteAll;
 			packageProductDependencies = (
@@ -356,6 +457,9 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
+					781DE0E82CE4915A09BB048C = {
+						ProvisioningStyle = Automatic;
+					};
 					81F1208700921F306CE28A0A = {
 						ProvisioningStyle = Automatic;
 					};
@@ -382,6 +486,7 @@
 			targets = (
 				0252D876FDB5205491A6C1A9 /* PasteAllCore */,
 				81F1208700921F306CE28A0A /* PasteAll */,
+				781DE0E82CE4915A09BB048C /* PasteAllFinderExtension */,
 				9C37DA4C94C5EE50E46F7289 /* PasteAllCoreTests */,
 				71B7A6EF64CEB03DAB070196 /* PasteAllTests */,
 			);
@@ -389,6 +494,14 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		1A30A71EA32CE2612A4FC6D1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1351AA69D1C6DE828C73823B /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3AAA2F1CCE8BB56E6B10583C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -417,6 +530,7 @@
 				96934DF37A8E74069F1DB1F3 /* HTMLTableParser.swift in Sources */,
 				B78DC5BC126AE995BD7C6AAA /* Models.swift in Sources */,
 				92401943469FF4D362420409 /* OnboardingProgress.swift in Sources */,
+				3D6DE1BE27FDDA77EC9AEF4B /* UpdateCheck.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,11 +538,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2610D545FDEC86CF2850A92 /* CacheStoreTests.swift in Sources */,
 				ED5EB022E2DD2DDDCF25EDD5 /* ContentDetectorTests.swift in Sources */,
 				1EFFEF026CF542DDE281D739 /* DelimitedTextParserTests.swift in Sources */,
 				C3064918DC9AB5E48BA2435C /* FileGeneratorTests.swift in Sources */,
 				1D2A0A76EB53F25EAE8F9BA5 /* HTMLTableParserTests.swift in Sources */,
 				58EA978691E9E2A99CDDE1A2 /* OnboardingProgressTests.swift in Sources */,
+				CF3165F679E59DB610F4730C /* UpdateCheckTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,6 +552,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				153ED6BF4407294FDAB56627 /* CandidatePickerTests.swift in Sources */,
+				4316E4A305B7BCF951B14767 /* FinderPasteReceiverTests.swift in Sources */,
+				34B2AE7DE26068018FC6BEB7 /* FinderPasteRequestTests.swift in Sources */,
 				7AA95D9D03BE032FF9C23CD8 /* PasteShortcutTests.swift in Sources */,
 				49759CA41852AB3C86CBFF48 /* SettingsStoreTests.swift in Sources */,
 			);
@@ -448,19 +567,37 @@
 				9E51AFD0DF303AFCB580CAFA /* AccessibilityController.swift in Sources */,
 				85C1BE15FBE3558D47F5237B /* CandidatePicker.swift in Sources */,
 				5B5E81680E22D0BD23540171 /* ErrorPresenter.swift in Sources */,
+				B5CADD0AD28C3B1500A3BD2D /* FinderExtensionController.swift in Sources */,
 				034F8F283C059B508070211E /* FinderPasteEventTap.swift in Sources */,
+				737AA95C86B4F99E42577177 /* FinderPasteReceiver.swift in Sources */,
+				B78AA1810D0AB6EBB6E5BAE3 /* FinderPasteRequest.swift in Sources */,
 				B02EA94682BB68C6A6483E29 /* OnboardingWindowController.swift in Sources */,
 				BE62C3BBA9760390364C4202 /* PasteAllApp.swift in Sources */,
 				A513B771D0E3D8F22573A5D8 /* PasteCoordinator.swift in Sources */,
 				E334FA3C011511509FA49CB0 /* PasteShortcut.swift in Sources */,
 				46ADFBA2D4AC5AA4DC1798E3 /* SettingsStore.swift in Sources */,
 				51984F4AFD80AE728162DFF0 /* ShortcutRecorder.swift in Sources */,
+				185B0BEEB4FCC08CB7A4A967 /* UpdateController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CA5ADFC63F21F32E7165FD25 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				567C5B3DC8505BCAB7A0B572 /* FinderPasteRequest.swift in Sources */,
+				E1061A6092A500ACF7927DE9 /* FinderSync.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1DB22983AF076B1D2E4F9123 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 781DE0E82CE4915A09BB048C /* PasteAllFinderExtension */;
+			targetProxy = 11D44DAA583F9455FD44DA75 /* PBXContainerItemProxy */;
+		};
 		2AED61C3C8AC18938FFD89FB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 0252D876FDB5205491A6C1A9 /* PasteAllCore */;
@@ -479,6 +616,15 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		BED9F3EE54D54F1640E96602 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0893C886E6351327131E0147 /* en */,
+				A66ACB0B9A7B838BFFB6E93D /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		FA2CB74FB083269E0B5E8827 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -502,7 +648,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.local.PasteAllTests;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.86xing.PasteAllTests;
 				SDKROOT = macosx;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PasteAll.app/Contents/MacOS/PasteAll";
 			};
@@ -516,6 +662,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "packaging/PasteAll-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = PasteAll;
 				INFOPLIST_KEY_LSUIElement = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -523,7 +670,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 0.1.0;
-				PASTEALL_APP_BUNDLE_ID = com.local.PasteAll;
+				PASTEALL_APP_BUNDLE_ID = io.github.86xing.PasteAll;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PASTEALL_APP_BUNDLE_ID)";
 				PRODUCT_NAME = PasteAll;
 				SDKROOT = macosx;
@@ -550,7 +697,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 0.1.0;
-				PASTEALL_CORE_BUNDLE_ID = com.local.PasteAllCore;
+				PASTEALL_CORE_BUNDLE_ID = io.github.86xing.PasteAll.core;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PASTEALL_CORE_BUNDLE_ID)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -626,7 +773,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.local.PasteAllTests;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.86xing.PasteAllTests;
 				SDKROOT = macosx;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PasteAll.app/Contents/MacOS/PasteAll";
 			};
@@ -643,8 +790,30 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.local.PasteAllCoreTests;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.86xing.PasteAllCoreTests;
 				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		52537CBC33DDDAEB031E5972 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Sources/PasteAllFinderExtension/PasteAllFinderExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = Sources/PasteAllFinderExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PASTEALL_APP_BUNDLE_ID = io.github.86xing.PasteAll;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PASTEALL_APP_BUNDLE_ID).FinderExtension";
+				PRODUCT_NAME = PasteAllFinderExtension;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -665,7 +834,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 0.1.0;
-				PASTEALL_CORE_BUNDLE_ID = com.local.PasteAllCore;
+				PASTEALL_CORE_BUNDLE_ID = io.github.86xing.PasteAll.core;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PASTEALL_CORE_BUNDLE_ID)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -685,7 +854,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.local.PasteAllCoreTests;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.86xing.PasteAllCoreTests;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -763,6 +932,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "packaging/PasteAll-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = PasteAll;
 				INFOPLIST_KEY_LSUIElement = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -770,9 +940,33 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 0.1.0;
-				PASTEALL_APP_BUNDLE_ID = com.local.PasteAll;
+				PASTEALL_APP_BUNDLE_ID = io.github.86xing.PasteAll;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PASTEALL_APP_BUNDLE_ID)";
 				PRODUCT_NAME = PasteAll;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		CD3D9F078035A5A43731781C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Sources/PasteAllFinderExtension/PasteAllFinderExtension.entitlements;
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = Sources/PasteAllFinderExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PASTEALL_APP_BUNDLE_ID = io.github.86xing.PasteAll;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PASTEALL_APP_BUNDLE_ID).FinderExtension";
+				PRODUCT_NAME = PasteAllFinderExtension;
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
 			};
@@ -804,6 +998,15 @@
 			buildConfigurations = (
 				6493C0CF60D8D5FA7D0ECB98 /* Debug */,
 				18ABF261C2FA67B0B6A00E97 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		B97B96737845FFB08FA97857 /* Build configuration list for PBXNativeTarget "PasteAllFinderExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				52537CBC33DDDAEB031E5972 /* Debug */,
+				CD3D9F078035A5A43731781C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

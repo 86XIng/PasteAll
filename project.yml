@@ -1,6 +1,6 @@
 name: PasteAll
 options:
-  bundleIdPrefix: com.local
+  bundleIdPrefix: io.github.86xing
   deploymentTarget:
     macOS: "14.0"
   xcodeVersion: "16.0"
@@ -21,7 +21,7 @@ targets:
       - package: libxlsxwriter
     settings:
       base:
-        PASTEALL_CORE_BUNDLE_ID: com.local.PasteAllCore
+        PASTEALL_CORE_BUNDLE_ID: io.github.86xing.PasteAll.core
         PRODUCT_BUNDLE_IDENTIFIER: $(PASTEALL_CORE_BUNDLE_ID)
         GENERATE_INFOPLIST_FILE: YES
         MARKETING_VERSION: 0.1.0
@@ -34,6 +34,14 @@ targets:
   PasteAll:
     type: application
     platform: macOS
+    info:
+      path: packaging/PasteAll-Info.plist
+      properties:
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        CFBundleURLTypes:
+          - CFBundleURLName: $(PASTEALL_APP_BUNDLE_ID).finder-paste
+            CFBundleURLSchemes: [pasteall-finder]
     sources:
       - path: Sources/PasteAll
         excludes: [Resources]
@@ -41,9 +49,10 @@ targets:
         buildPhase: resources
     dependencies:
       - target: PasteAllCore
+      - target: PasteAllFinderExtension
     settings:
       base:
-        PASTEALL_APP_BUNDLE_ID: com.local.PasteAll
+        PASTEALL_APP_BUNDLE_ID: io.github.86xing.PasteAll
         PRODUCT_BUNDLE_IDENTIFIER: $(PASTEALL_APP_BUNDLE_ID)
         PRODUCT_NAME: PasteAll
         MARKETING_VERSION: 0.1.0
@@ -51,6 +60,30 @@ targets:
         INFOPLIST_KEY_LSUIElement: YES
         INFOPLIST_KEY_CFBundleDisplayName: PasteAll
         GENERATE_INFOPLIST_FILE: YES
+        CODE_SIGN_STYLE: Automatic
+        SWIFT_VERSION: 5.0
+      configs:
+        Release:
+          ENABLE_HARDENED_RUNTIME: YES
+          CODE_SIGN_INJECT_BASE_ENTITLEMENTS: NO
+  PasteAllFinderExtension:
+    type: app-extension
+    platform: macOS
+    sources:
+      - path: Sources/PasteAllFinderExtension
+        excludes: [Resources]
+      - path: Sources/PasteAllFinderExtension/Resources
+        buildPhase: resources
+      - path: Sources/PasteAll/FinderPasteRequest.swift
+    settings:
+      base:
+        PASTEALL_APP_BUNDLE_ID: io.github.86xing.PasteAll
+        PRODUCT_BUNDLE_IDENTIFIER: $(PASTEALL_APP_BUNDLE_ID).FinderExtension
+        PRODUCT_NAME: PasteAllFinderExtension
+        INFOPLIST_FILE: Sources/PasteAllFinderExtension/Info.plist
+        CODE_SIGN_ENTITLEMENTS: Sources/PasteAllFinderExtension/PasteAllFinderExtension.entitlements
+        MARKETING_VERSION: 0.1.0
+        CURRENT_PROJECT_VERSION: 1
         CODE_SIGN_STYLE: Automatic
         SWIFT_VERSION: 5.0
       configs:
@@ -65,7 +98,7 @@ targets:
       - target: PasteAllCore
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.local.PasteAllCoreTests
+        PRODUCT_BUNDLE_IDENTIFIER: io.github.86xing.PasteAllCoreTests
         GENERATE_INFOPLIST_FILE: YES
   PasteAllTests:
     type: bundle.unit-test
@@ -75,7 +108,7 @@ targets:
       - target: PasteAll
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.local.PasteAllTests
+        PRODUCT_BUNDLE_IDENTIFIER: io.github.86xing.PasteAllTests
         GENERATE_INFOPLIST_FILE: YES
 schemes:
   PasteAll:

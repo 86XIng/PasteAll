@@ -1,81 +1,115 @@
 # PasteAll — Clipboard to Files for Mac
 
+**English** | [简体中文](README.zh-CN.md)
+
 **Paste anything. Get a file.**
 
-**PasteAll｜把剪贴板粘贴成文件**
+PasteAll is a native macOS 14+ menu bar app that turns clipboard content into files in Finder. Copy an image, some text, a table, or a link, then press `⌘V` in a Finder folder — or right-click and choose **Paste Clipboard as File** — and PasteAll writes the matching file.
 
-复制什么，都能粘贴成文件。
+## Features
 
-PasteAll is a native macOS 14+ menu bar app that turns clipboard content into files when you press its configured shortcut in Finder. The default shortcut is `⌘V` and can be changed or reset in Settings.
+| Clipboard content | File created |
+| --- | --- |
+| PNG / JPEG / TIFF / HEIC / GIF images | `.png` or `.jpg` |
+| Plain text | UTF-8 `.txt` |
+| Markdown (detected automatically) | `.md` |
+| HTML tables, TSV, CSV (e.g. copied from Excel, Numbers, web pages) | Excel `.xlsx` |
+| Web links | macOS `.webloc` or cross-platform `.url` |
 
-在访达中按下配置的快捷键时，PasteAll 会根据剪贴板内容生成图片、文本、Markdown、Excel 工作簿或网页快捷方式。默认快捷键为 `⌘V`，可在设置中修改或恢复默认；其他 App 中的按键不会被改变。
+- **Two ways to paste:** press the configured shortcut (default `⌘V`) in Finder, or use the Finder context menu.
+- **Detection modes:** Aggressive (default), Strict, or Ask Every Time with a format picker.
+- **Customizable shortcut** that applies only while Finder is in front; other apps are never affected.
+- **Private:** no clipboard history, no accounts, no telemetry.
 
-## Supported output / 支持格式
+## Install
 
-- PNG and JPEG images / 图片
-- UTF-8 `.txt` and `.md`
-- Excel `.xlsx` generated from HTML tables, TSV, or CSV
-- macOS `.webloc` and cross-platform `.url` shortcuts
-
-PasteAll defaults to aggressive detection. The menu bar settings also provide strict detection and an ask-every-time picker.
-
-默认使用“积极识别”，也可在菜单栏中切换为“严格识别”或“每次询问”。
-
-## Run in Xcode / 使用 Xcode 运行
-
-1. Open `PasteAll.xcodeproj` in Xcode 26 or newer.
-2. Select the `PasteAll` scheme and run **My Mac**.
-3. Follow the first-launch guide and grant Accessibility permission when prompted.
-4. If macOS does not refresh permission immediately, quit and run PasteAll again.
-5. Copy supported content, open a Finder folder, and press the configured shortcut (default: `⌘V`).
-
-首次运行需要在“系统设置 → 隐私与安全性 → 辅助功能”中允许 PasteAll。这个权限只用于在访达中识别配置的快捷键并重放标准粘贴命令。
-
-首次启动会自动显示三步使用指南，并实时检测授权状态。关闭后可随时从菜单栏或设置页的“使用指南”再次打开。
-
-## Build and test / 构建与测试
-
-For the normal unsigned developer build, run:
+### Homebrew (recommended)
 
 ```sh
-./scripts/build-local.sh
+brew install --cask 86xing/tap/paste-all
 ```
 
-To build an unsigned universal Release app for testing on both Apple Silicon and Intel Macs, run:
+Upgrade later with `brew upgrade --cask paste-all`.
+
+### Manual download
+
+1. Download `PasteAll-<version>.zip` from the [latest release](https://github.com/86XIng/paste-all/releases/latest).
+2. Unzip it and move `PasteAll.app` to **Applications**.
+
+### First launch
+
+PasteAll is not yet notarized by Apple, so macOS blocks the first launch of a downloaded copy (Homebrew handles this for you):
+
+- Open PasteAll once, then go to **System Settings → Privacy & Security** and click **Open Anyway**, **or**
+- run `xattr -dr com.apple.quarantine /Applications/PasteAll.app` in Terminal.
+
+## Setup
+
+### Accessibility permission (for `⌘V`)
+
+The first-launch guide asks for Accessibility permission. PasteAll uses it only to recognize your shortcut in Finder and replay Finder's paste command; it never records what you type.
+
+Enable PasteAll under **System Settings → Privacy & Security → Accessibility**. The status updates automatically.
+
+### Finder context menu (optional)
+
+Open **Settings → Finder Context Menu** and click **Turn On…**. If macOS shows its extension settings instead, enable **PasteAll** under Finder extensions.
+
+Then right-click inside any Finder folder (or on a folder) and choose:
+
+- **Paste Clipboard as File** — uses your detection mode.
+- **Paste Clipboard as…** — always lets you pick the format.
+
+The context menu writes the file directly into the folder. It does not change the clipboard and does not need Accessibility permission.
+
+## Updates
+
+PasteAll checks GitHub Releases once a day and tells you when a new version is available. You can turn this off or check manually in **Settings → Updates** or from the menu bar. If you installed with Homebrew, the notice shows the `brew upgrade` command instead of a download link.
+
+**After updating,** macOS may stop honoring the Accessibility approval, because it is tied to each build's signature until PasteAll ships with a Developer ID signature. The System Settings switch can still look on. PasteAll detects this after an update and offers **Re-authorize**: it clears the outdated entry and asks again, so you only need to switch PasteAll back on.
+
+## Privacy
+
+- Clipboard content is processed only on your Mac.
+- The only network request is the optional update check to `api.github.com`.
+- Files prepared for `⌘V` live in `~/Library/Caches/io.github.86xing.PasteAll/PreparedFiles` (mode `0700`, files `0600`) and are removed after 24 hours.
+- The clipboard is restored after a `⌘V` paste, unless it changed in the meantime.
+
+## Build from source
+
+Requirements: macOS 14+, Xcode 26 or newer.
 
 ```sh
-./scripts/build-local.sh universal
+./scripts/build-local.sh            # build (Debug) and run all tests
+./scripts/build-local.sh build      # build only
+./scripts/build-local.sh test       # tests only
+./scripts/build-local.sh universal  # universal Release app in /tmp/PasteAllUniversalDerivedData
+./scripts/test-finder-ipc.sh        # IPC integration test; requires a logged-in macOS GUI session
 ```
 
-The universal app is written to `/tmp/PasteAllUniversalDerivedData/Build/Products/Release/PasteAll.app` by default.
-Because this local build has no Developer ID Team ID, the script disables Hardened Runtime for this artifact so its embedded framework can load. Formal releases keep Hardened Runtime enabled and sign both the app and framework with the same Developer ID identity.
+The IPC test uses disposable apps to verify sandboxed cold/warm delivery and rejection of a sender with a copied bundle ID. It does not read the clipboard or use the installed PasteAll app.
 
-正式发布已提供 Developer ID 签名、通用架构构建、DMG、公证、staple 和 Gatekeeper 验证流程。开发者账号准备好后，请按照 [发布与公证说明](docs/RELEASING.md) 配置。
-
-The checked-in Xcode project can be built directly:
+Local builds are ad-hoc signed, so macOS treats every rebuild as a new app and you must re-grant Accessibility. To avoid that, sign with a stable identity from your keychain:
 
 ```sh
-DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
-  xcodebuild -project PasteAll.xcodeproj -scheme PasteAll \
-  -derivedDataPath /tmp/PasteAllDerivedData CODE_SIGNING_ALLOWED=NO build
-
-DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
-  xcodebuild -project PasteAll.xcodeproj -scheme PasteAll \
-  -derivedDataPath /tmp/PasteAllDerivedData CODE_SIGNING_ALLOWED=NO test
+PASTEALL_LOCAL_SIGNING_IDENTITY="Apple Development: you@example.com (TEAMID)" ./scripts/build-local.sh build
 ```
 
-The project is generated from `project.yml`. After changing that file, regenerate it with `xcodegen generate`. A Swift Package manifest is also included for command-line builds and core tests.
+The Xcode project is generated from `project.yml`; after editing it, run `xcodegen generate`. A Swift Package manifest is included for command-line builds of the core library.
 
-## Privacy and cache / 隐私与缓存
+### Project layout
 
-- No clipboard history, accounts, telemetry, or app-initiated network requests.
-- Prepared files live in `~/Library/Caches/com.local.PasteAll/PreparedFiles`.
-- The cache directory uses mode `0700`; generated files use mode `0600`.
-- Files older than 24 hours are removed when the app starts.
-- The clipboard is restored only if it has not changed since PasteAll prepared the Finder paste.
+| Path | Contents |
+| --- | --- |
+| `Sources/PasteAllCore` | Clipboard detection, parsers, file generation, update logic |
+| `Sources/PasteAll` | Menu bar app, Finder `⌘V` handling, settings, onboarding |
+| `Sources/PasteAllFinderExtension` | Finder Sync extension for the context menu |
+| `scripts/` | Local build, release packaging, Homebrew cask rendering |
 
-项目依赖首次解析时，Xcode/Swift Package Manager 会从 GitHub 下载 SwiftSoup 与 libxlsxwriter；运行中的 App 本身不联网。
+## Releasing
 
-## Current distribution scope / 当前发布范围
+Pushing a tag such as `v1.2.0` runs [`.github/workflows/release.yml`](.github/workflows/release.yml), which tests, builds a universal app, publishes the GitHub Release, and updates the Homebrew tap. See [docs/RELEASING.md](docs/RELEASING.md) for the one-time setup and for signed, notarized releases.
 
-The repository includes a Developer ID + notarized DMG release workflow for direct distribution. Mac App Store sandboxing, installer packaging, Homebrew publishing, and automatic updates remain out of scope.
+## License
+
+PasteAll is released under the [MIT License](LICENSE). It bundles [SwiftSoup](https://github.com/scinfu/SwiftSoup) (MIT) and [libxlsxwriter](https://github.com/jmcnamara/libxlsxwriter) (FreeBSD); see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

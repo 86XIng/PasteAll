@@ -84,6 +84,7 @@ public enum PasteAllError: LocalizedError, Equatable {
     case cannotDecodeImage
     case cannotCreateCache
     case cannotWritePasteboard
+    case cannotWriteDestination
     case generationFailed(String)
 
     public var errorDescription: String? {
@@ -94,6 +95,7 @@ public enum PasteAllError: LocalizedError, Equatable {
         case .cannotDecodeImage: "The clipboard image could not be decoded."
         case .cannotCreateCache: "PasteAll could not create its private cache."
         case .cannotWritePasteboard: "PasteAll could not prepare Finder paste."
+        case .cannotWriteDestination: "PasteAll could not write to the destination folder."
         case .generationFailed(let detail): "Could not create the file: \(detail)"
         }
     }

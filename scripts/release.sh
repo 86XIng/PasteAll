@@ -141,6 +141,14 @@ verify_app() {
     [[ "$app_team_id" == "$team_id" ]] || fail "App Team ID is '${app_team_id:-missing}', expected $team_id"
     [[ "$core_team_id" == "$team_id" ]] || fail "PasteAllCore.framework Team ID is '${core_team_id:-missing}', expected $team_id"
 
+    local finder_extension finder_team_id
+    finder_extension="$app_path/Contents/PlugIns/PasteAllFinderExtension.appex"
+    [[ -d "$finder_extension" ]] || fail "Embedded Finder extension is missing"
+    finder_team_id="$(codesign -dv --verbose=4 "$finder_extension" 2>&1 | sed -n 's/^TeamIdentifier=//p')"
+    [[ "$finder_team_id" == "$team_id" ]] || fail "Finder extension Team ID is '${finder_team_id:-missing}', expected $team_id"
+    codesign -d --entitlements - --xml "$finder_extension" 2>/dev/null | grep -q "com.apple.security.app-sandbox" \
+        || fail "Finder extension is not sandboxed"
+
     entitlements="$work_dir/entitlements.plist"
     if codesign -d --entitlements :- "$app_path" >"$entitlements" 2>/dev/null && [[ -s "$entitlements" ]]; then
         if plutil -extract com.apple.security.get-task-allow raw -o - "$entitlements" >/dev/null 2>&1; then

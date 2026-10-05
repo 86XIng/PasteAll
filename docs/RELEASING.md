@@ -1,6 +1,50 @@
 # PasteAll 发布与公证
 
-本项目采用 Developer ID 站外分发，不走 Mac App Store。发布脚本会完成：
+本项目通过 GitHub Releases 和 Homebrew 站外分发，不走 Mac App Store（右键菜单和 `⌘V` 拦截依赖的能力在 App Sandbox 中不可用）。
+
+## GitHub Actions 自动发布（当前方式，无需开发者账号）
+
+推送 `v<版本号>` 标签即可发布：
+
+```sh
+git tag v0.2.0
+git push origin v0.2.0
+```
+
+[`release.yml`](../.github/workflows/release.yml) 会依次：
+
+1. 运行全部测试。
+2. 用 `scripts/package-unsigned.sh` 构建 ad-hoc 签名的通用 App，版本号取自标签，构建号取自 `github.run_number`。
+3. 生成 `PasteAll-<版本号>.zip` 与 `.sha256`，创建 GitHub Release 并附上安装说明。
+4. 如果配置了 `HOMEBREW_TAP_TOKEN`，用 `scripts/render-cask.sh` 生成 cask 并推送到 tap 仓库。
+
+App 内的检查更新读取的是 GitHub 的 “latest release”，所以草稿和预发布版本不会推送给用户。
+
+### 一次性配置 Homebrew tap
+
+1. 在 GitHub 创建公开仓库 `86XIng/homebrew-tap`（名称必须以 `homebrew-` 开头），里面建一个空的 `Casks/` 目录。
+2. 创建一个 fine-grained personal access token，只授权该 tap 仓库的 **Contents: Read and write**。
+3. 在 `paste-all` 仓库的 **Settings → Secrets and variables → Actions** 中添加 secret `HOMEBREW_TAP_TOKEN`。
+4. 如果 tap 仓库不叫 `86XIng/homebrew-tap`，再添加 variable `HOMEBREW_TAP_REPOSITORY`（例如 `owner/homebrew-tap`）。
+
+用户随后可以运行 `brew install --cask 86xing/tap/paste-all` 安装。由于发布包尚未公证，cask 会在安装后移除隔离属性（见 `packaging/homebrew/paste-all.rb.template` 的 `postflight`）。
+
+### 本地预演打包
+
+```sh
+PASTEALL_VERSION=0.2.0 PASTEALL_BUILD_NUMBER=1 ./scripts/package-unsigned.sh
+./scripts/render-cask.sh 0.2.0 "$(cut -d' ' -f1 dist/PasteAll-0.2.0.zip.sha256)"
+```
+
+## Developer ID 签名与公证（加入 Apple Developer Program 后）
+
+使用 Developer ID 签名后，用户首次打开不再被 Gatekeeper 拦截，更新后辅助功能授权也会保留。切换时需要：
+
+- 用 `scripts/release.sh` 产出已公证的 DMG（或改为打包已公证的 ZIP），并相应修改 `release.yml`；
+- 删除 cask 模板中的 `postflight` 和 caveats 里的重新授权说明；
+- 首次签名版本发布后，Bundle ID 保持 `io.github.86xing.PasteAll` 不变。
+
+发布脚本会完成：
 
 1. 构建 Intel + Apple Silicon 通用 Release。
 2. 使用 Developer ID Application 证书签名并导出 App。
@@ -12,7 +56,7 @@
 
 公证结果和完整日志保存在 `dist/`，方便排查 Apple 返回的警告。
 
-## 账号尚未准备好时
+## 本地构建
 
 不需要签名账号即可运行本地构建和测试：
 
@@ -39,7 +83,7 @@
    security find-identity -v -p codesigning
    ```
 
-4. 选择长期不变的反向域名 Bundle ID，例如 `com.example.PasteAll`。不要发布后再改 Bundle ID。
+4. Bundle ID 使用项目中的 `io.github.86xing.PasteAll`。不要发布后再改 Bundle ID，否则用户的设置和授权都会丢失。
 5. 在 Apple ID 网站创建 App 专用密码。
 
 建议把 Developer ID 证书和私钥导出为加密 `.p12` 并离线备份。证书文件本身不够，发布机器还必须持有对应私钥。
@@ -69,7 +113,7 @@ xcrun notarytool store-credentials paste-all-notary \
 
 ```sh
 export PASTEALL_TEAM_ID=ABCDE12345
-export PASTEALL_BUNDLE_ID=com.example.PasteAll
+export PASTEALL_BUNDLE_ID=io.github.86xing.PasteAll
 export PASTEALL_VERSION=1.0.0
 export PASTEALL_BUILD_NUMBER=1
 export PASTEALL_NOTARY_PROFILE=paste-all-notary
