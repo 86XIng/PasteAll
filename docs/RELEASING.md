@@ -16,18 +16,25 @@ git push origin v0.2.0
 1. 运行全部测试。
 2. 用 `scripts/package-unsigned.sh` 构建 ad-hoc 签名的通用 App，版本号取自标签，构建号取自 `github.run_number`。
 3. 生成 `PasteAll-<版本号>.zip` 与 `.sha256`，创建 GitHub Release 并附上安装说明。
-4. 如果配置了 `HOMEBREW_TAP_TOKEN`，用 `scripts/render-cask.sh` 生成 cask 并推送到 tap 仓库。
+4. 如果配置了 `HOMEBREW_TAP_DEPLOY_KEY`，用 `scripts/render-cask.sh` 生成 cask 并推送到 tap 仓库。
 
 App 内的检查更新读取的是 GitHub 的 “latest release”，所以草稿和预发布版本不会推送给用户。
 
 ### 一次性配置 Homebrew tap
 
-1. 在 GitHub 创建公开仓库 `86XIng/homebrew-tap`（名称必须以 `homebrew-` 开头），里面建一个空的 `Casks/` 目录。
-2. 创建一个 fine-grained personal access token，只授权该 tap 仓库的 **Contents: Read and write**。
-3. 在 `paste-all` 仓库的 **Settings → Secrets and variables → Actions** 中添加 secret `HOMEBREW_TAP_TOKEN`。
-4. 如果 tap 仓库不叫 `86XIng/homebrew-tap`，再添加 variable `HOMEBREW_TAP_REPOSITORY`（例如 `owner/homebrew-tap`）。
+tap 仓库为 [`86XIng/homebrew-tap`](https://github.com/86XIng/homebrew-tap)。发布工作流通过一把只对该仓库有写权限的 **deploy key** 推送 cask，不使用个人访问令牌，也不会过期：
 
-用户随后可以运行 `brew install --cask 86xing/tap/paste-all` 安装。由于发布包尚未公证，cask 会在安装后移除隔离属性（见 `packaging/homebrew/paste-all.rb.template` 的 `postflight`）。
+1. 生成密钥对：`ssh-keygen -t ed25519 -N "" -C "paste-all release" -f tap_deploy_key`
+2. 把公钥添加为 tap 仓库的可写 deploy key：
+   `gh repo deploy-key add tap_deploy_key.pub --repo 86XIng/homebrew-tap --title "paste-all release" --allow-write`
+3. 把私钥保存为 `paste-all` 仓库的 secret：
+   `gh secret set HOMEBREW_TAP_DEPLOY_KEY --repo 86XIng/paste-all < tap_deploy_key`
+4. 删除本地的两个密钥文件。
+5. 如果 tap 仓库不叫 `86XIng/homebrew-tap`，在 `paste-all` 仓库添加 Actions variable `HOMEBREW_TAP_REPOSITORY`（例如 `owner/homebrew-tap`）。
+
+需要轮换时，删除旧 deploy key 后重复以上步骤即可。
+
+用户运行 `brew install --cask 86xing/tap/paste-all` 安装；使用完整名称安装时 Homebrew 会自动信任该 cask（Homebrew 7 的 tap trust），之后 `brew upgrade --cask paste-all` 可直接升级。由于发布包尚未公证，cask 会在安装后移除隔离属性（见 `packaging/homebrew/paste-all.rb.template` 的 `postflight_steps`）。
 
 ### 本地预演打包
 
@@ -41,7 +48,7 @@ PASTEALL_VERSION=0.2.0 PASTEALL_BUILD_NUMBER=1 ./scripts/package-unsigned.sh
 使用 Developer ID 签名后，用户首次打开不再被 Gatekeeper 拦截，更新后辅助功能授权也会保留。切换时需要：
 
 - 用 `scripts/release.sh` 产出已公证的 DMG（或改为打包已公证的 ZIP），并相应修改 `release.yml`；
-- 删除 cask 模板中的 `postflight` 和 caveats 里的重新授权说明；
+- 删除 cask 模板中的 `postflight_steps` 和 caveats 里的重新授权说明；
 - 首次签名版本发布后，Bundle ID 保持 `io.github.86xing.PasteAll` 不变。
 
 发布脚本会完成：
