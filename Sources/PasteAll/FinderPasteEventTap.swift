@@ -70,38 +70,44 @@ final class FinderPasteEventTap {
     /// Replays Finder's paste command once the user's shortcut modifiers are out
     /// of the way, then reports whether the events were posted.
     ///
-    /// Events injected at the HID tap are combined with the modifier keys that
-    /// are physically held, so posting ⌘V while a custom shortcut such as ⌥⌘V is
-    /// still down reaches Finder as ⌥⌘V — "Move Item Here", which relocates the
-    /// prepared file instead of copying it. Holding only ⌘ merges to exactly the
-    /// chord we want, so the common case still posts immediately.
-    static func postPaste(completion: @escaping @MainActor (Bool) -> Void) {
-        waitForExtraModifierRelease(deadline: Date() + modifierReleaseTimeout) {
-            completion(postCommandV())
-        }
-    }
-
-    private static let modifierReleaseTimeout: TimeInterval = 0.5
-    private static let modifierPollInterval: TimeInterval = 0.02
-
-    private static func waitForExtraModifierRelease(
-        deadline: Date,
-        then body: @escaping @MainActor () -> Void
+    /// Extra physical modifiers can change the intended paste command, so wait
+    /// for release or cancel on timeout. Deliver both events to the validated
+    /// Finder process so a subsequent focus switch cannot redirect the paste.
+    static func postPaste(
+        isValid: @escaping @MainActor () -> Bool,
+        modifiers: @escaping @MainActor () -> PasteShortcut.Modifiers = {
+            PasteShortcut.Modifiers(eventFlags: NSEvent.modifierFlags)
+        },
+        frontmostApplication: @escaping @MainActor () -> (bundleIdentifier: String?, processIdentifier: pid_t)? = {
+            guard let application = NSWorkspace.shared.frontmostApplication else { return nil }
+            return (application.bundleIdentifier, application.processIdentifier)
+        },
+        post: @escaping @MainActor (pid_t) -> Bool = { postCommandV(to: $0) },
+        timeout: TimeInterval = 0.5,
+        completion: @escaping @MainActor (Bool) -> Void
     ) {
-        let held = PasteShortcut.Modifiers(eventFlags: NSEvent.modifierFlags)
-        guard !held.subtracting(.command).isEmpty, Date() < deadline else {
-            body()
-            return
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + modifierPollInterval) {
-            MainActor.assumeIsolated {
-                waitForExtraModifierRelease(deadline: deadline, then: body)
+        let deadline = Date().addingTimeInterval(timeout)
+        func attempt() {
+            guard isValid(), let target = frontmostApplication(),
+                  target.bundleIdentifier == "com.apple.finder" else {
+                completion(false)
+                return
+            }
+            if modifiers().subtracting(.command).isEmpty {
+                completion(post(target.processIdentifier))
+            } else if Date() >= deadline {
+                completion(false)
+            } else {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.02) {
+                    attempt()
+                }
             }
         }
+        attempt()
     }
 
     @discardableResult
-    static func postCommandV() -> Bool {
+    private static func postCommandV(to processIdentifier: pid_t) -> Bool {
         guard let source = CGEventSource(stateID: .hidSystemState),
               let keyDown = CGEvent(keyboardEventSource: source, virtualKey: 9, keyDown: true),
               let keyUp = CGEvent(keyboardEventSource: source, virtualKey: 9, keyDown: false)
@@ -110,7 +116,7 @@ final class FinderPasteEventTap {
         for event in [keyDown, keyUp] {
             event.flags = .maskCommand
             event.setIntegerValueField(.eventSourceUserData, value: pasteAllSyntheticEventMarker)
-            event.post(tap: .cghidEventTap)
+            event.postToPid(processIdentifier)
         }
         return true
     }

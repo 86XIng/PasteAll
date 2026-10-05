@@ -144,6 +144,19 @@ final class FileGeneratorTests: XCTestCase {
         XCTAssertTrue(xml.contains("1e999"))
     }
 
+    func testSpreadsheetRejectsEmbeddedNULBeforeWritingDestination() throws {
+        let url = temporaryDirectory.appendingPathComponent("nul.xlsx")
+        let sentinel = Data("existing file".utf8)
+        try sentinel.write(to: url)
+        let table = TableData(rows: [["Header", "Value"], ["Label", "before\0after"]], headerRows: [0])
+        XCTAssertThrowsError(try SpreadsheetGenerator().generate(table, at: url))
+        XCTAssertEqual(try Data(contentsOf: url), sentinel)
+
+        try FileManager.default.removeItem(at: url)
+        XCTAssertThrowsError(try SpreadsheetGenerator().generate(table, at: url))
+        XCTAssertFalse(FileManager.default.fileExists(atPath: url.path))
+    }
+
     func testFilenameCollisionAddsSuffix() throws {
         let date = Date(timeIntervalSince1970: 1_700_000_000)
         let generator = FilenameGenerator(calendar: Calendar(identifier: .gregorian), locale: Locale(identifier: "en_US_POSIX"))

@@ -94,3 +94,80 @@ final class PasteShortcutTests: XCTestCase {
         XCTAssertEqual(shortcut.displayName, "⌘Space")
     }
 }
+
+@MainActor
+final class FinderPasteReplayTests: XCTestCase {
+    func testPostsWhenOnlyCommandIsHeld() {
+        var posted = false
+        FinderPasteEventTap.postPaste(
+            isValid: { true }, modifiers: { [.command] },
+            frontmostApplication: { ("com.apple.finder", 42) },
+            post: { pid in XCTAssertEqual(pid, 42); posted = true; return true }
+        ) { XCTAssertTrue($0) }
+        XCTAssertTrue(posted)
+    }
+
+    func testRejectsAnotherForegroundApp() {
+        FinderPasteEventTap.postPaste(
+            isValid: { true }, modifiers: { [] },
+            frontmostApplication: { ("com.apple.TextEdit", 99) },
+            post: { _ in XCTFail("Must not paste into another app"); return true }
+        ) { XCTAssertFalse($0) }
+    }
+
+    func testHeldExtraModifierTimesOutWithoutPosting() {
+        FinderPasteEventTap.postPaste(
+            isValid: { true }, modifiers: { [.command, .option] },
+            frontmostApplication: { ("com.apple.finder", 42) },
+            post: { _ in XCTFail("Must not post with Option held"); return true },
+            timeout: 0
+        ) { XCTAssertFalse($0) }
+    }
+
+    func testRechecksClipboardValidityAfterWaiting() async {
+        let finished = expectation(description: "Cancelled changed clipboard")
+        var valid = true
+        FinderPasteEventTap.postPaste(
+            isValid: { valid },
+            modifiers: { valid = false; return [.option] },
+            frontmostApplication: { ("com.apple.finder", 42) },
+            post: { _ in XCTFail("Must not paste a changed clipboard"); return true }
+        ) {
+            XCTAssertFalse($0)
+            finished.fulfill()
+        }
+        await fulfillment(of: [finished], timeout: 1)
+    }
+
+    func testRechecksForegroundAfterWaiting() async {
+        let finished = expectation(description: "Cancelled app switch")
+        var foreground = "com.apple.finder"
+        FinderPasteEventTap.postPaste(
+            isValid: { true },
+            modifiers: { foreground = "com.apple.TextEdit"; return [.option] },
+            frontmostApplication: { (foreground, 42) },
+            post: { _ in XCTFail("Must not paste after app switch"); return true }
+        ) {
+            XCTAssertFalse($0)
+            finished.fulfill()
+        }
+        await fulfillment(of: [finished], timeout: 1)
+    }
+
+    func testPostsAfterExtraModifierIsReleased() async {
+        let finished = expectation(description: "Posted after release")
+        var held: PasteShortcut.Modifiers = [.option]
+        var count = 0
+        FinderPasteEventTap.postPaste(
+            isValid: { true },
+            modifiers: { let current = held; held = []; return current },
+            frontmostApplication: { ("com.apple.finder", 42) },
+            post: { pid in XCTAssertEqual(pid, 42); count += 1; return true }
+        ) {
+            XCTAssertTrue($0)
+            finished.fulfill()
+        }
+        await fulfillment(of: [finished], timeout: 1)
+        XCTAssertEqual(count, 1)
+    }
+}

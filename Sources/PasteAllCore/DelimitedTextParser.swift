@@ -21,13 +21,7 @@ public enum DelimitedTextParser {
             } else if character == delimiter, !inQuotes {
                 row.append(field)
                 field = ""
-            } else if (character == "\n" || character == "\r"), !inQuotes {
-                if character == "\r" {
-                    let next = text.index(after: index)
-                    if next < text.endIndex, text[next] == "\n" {
-                        index = next
-                    }
-                }
+            } else if (character == "\n" || character == "\r" || character == "\r\n"), !inQuotes {
                 row.append(field)
                 rows.append(row)
                 row = []

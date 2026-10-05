@@ -30,14 +30,19 @@ final class PasteCoordinator: ObservableObject {
             settings?.pasteShortcut ?? .defaultShortcut
         }
 
-        settings.$isEnabled.sink { [weak self] _ in self?.refreshMonitoring() }
-            .store(in: &cancellables)
-        accessibility.$isTrusted.sink { [weak self] _ in self?.refreshMonitoring() }
+        settings.$isEnabled.combineLatest(accessibility.$isTrusted)
+            .sink { [weak self] enabled, trusted in
+                self?.updateMonitoring(enabled: enabled, trusted: trusted)
+            }
             .store(in: &cancellables)
     }
 
     func refreshMonitoring() {
-        guard settings.isEnabled, accessibility.isTrusted else {
+        updateMonitoring(enabled: settings.isEnabled, trusted: accessibility.isTrusted)
+    }
+
+    private func updateMonitoring(enabled: Bool, trusted: Bool) {
+        guard enabled, trusted else {
             eventTap.stop()
             isMonitoring = false
             return
@@ -103,6 +108,10 @@ final class PasteCoordinator: ObservableObject {
             return
         }
 
+        // Return focus after the picker closes, before asynchronous generation.
+        // Never reactivate Finder later if the user switches apps while waiting.
+        if needsFinderActivation { activateFinder() }
+
         let generator = self.generator
         let generation = Task.detached(priority: .userInitiated) {
             try generator.generate(candidate, at: destination)
@@ -138,14 +147,19 @@ final class PasteCoordinator: ObservableObject {
 
             let paste = { [weak self] in
                 guard let self else { return }
-                guard pasteboard.changeCount == preparedChangeCount else {
-                    isHandlingPaste = false
-                    return
-                }
-                FinderPasteEventTap.postPaste { [weak self] posted in
+                FinderPasteEventTap.postPaste(isValid: { [weak self] in
+                    guard let self else { return false }
+                    return pasteboard.changeCount == preparedChangeCount
+                        && self.settings.isEnabled && self.accessibility.isTrusted
+                }) { [weak self] posted in
                     guard let self else { return }
                     guard posted else {
-                        try? snapshot.restore(to: pasteboard)
+                        if ClipboardRestorationPolicy.shouldRestore(
+                            currentChangeCount: pasteboard.changeCount,
+                            preparedChangeCount: preparedChangeCount
+                        ) {
+                            try? snapshot.restore(to: pasteboard)
+                        }
                         try? FileManager.default.removeItem(at: destination)
                         isHandlingPaste = false
                         errors.show(String(localized: "error.event"))
@@ -164,7 +178,6 @@ final class PasteCoordinator: ObservableObject {
             }
 
             if needsFinderActivation {
-                activateFinder()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
                     paste()
                 }

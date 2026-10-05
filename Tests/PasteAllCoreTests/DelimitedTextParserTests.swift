@@ -25,4 +25,18 @@ final class DelimitedTextParserTests: XCTestCase {
     func testRejectsOneDimensionalText() {
         XCTAssertNil(DelimitedTextParser.parse("a\nb", delimiter: ","))
     }
+
+    func testCRLFAndMixedNewlinesInCSVAndTSV() {
+        for delimiter: Character in [",", "\t"] {
+            let d = String(delimiter)
+            let input = "a\(d)b\r\n1\(d)2\r3\(d)4\n5\(d)6\r\n"
+            XCTAssertEqual(DelimitedTextParser.parse(input, delimiter: delimiter),
+                           [["a", "b"], ["1", "2"], ["3", "4"], ["5", "6"]])
+        }
+    }
+
+    func testQuotedCRLFIsPreserved() {
+        XCTAssertEqual(DelimitedTextParser.parse("a,b\r\n1,\"two\r\nlines\"", delimiter: ","),
+                       [["a", "b"], ["1", "two\r\nlines"]])
+    }
 }

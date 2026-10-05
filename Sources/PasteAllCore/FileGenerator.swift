@@ -79,6 +79,11 @@ public struct SpreadsheetGenerator: Sendable {
             throw PasteAllError.invalidTable
         }
 
+        // Validate before creating the workbook: C strings cannot preserve an embedded NUL.
+        guard table.rows.allSatisfy({ row in row.allSatisfy { !$0.utf8.contains(0) } }) else {
+            throw PasteAllError.generationFailed("spreadsheet cells cannot contain NUL characters")
+        }
+
         let closeResult: lxw_error = try destination.path.withCString { path in
             guard let workbook = workbook_new(path) else {
                 throw PasteAllError.generationFailed("could not initialize workbook")
