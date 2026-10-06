@@ -31,17 +31,19 @@ brew install --cask 86xing/tap/paste-all
 
 以后用 `brew upgrade --cask paste-all` 升级。
 
-### 手动下载
+### 磁盘映像
 
-1. 从[最新版本](https://github.com/86XIng/paste-all/releases/latest)下载 `PasteAll-<版本号>.zip`。
-2. 解压后把 `PasteAll.app` 拖到“应用程序”文件夹。
+1. 从[最新版本](https://github.com/86XIng/PasteAll/releases/latest)下载 `PasteAll-<版本号>.dmg`。
+2. 打开后把 **PasteAll** 拖到 **Applications（应用程序）** 上。映像中还附有中英双语的**安装说明**。
+
+每个版本也会附带同一 App 的 `.zip`，供 Homebrew cask 使用。
 
 ### 首次打开
 
 PasteAll 目前还没有经过 Apple 公证，所以 macOS 会拦截手动下载版本的首次打开（通过 Homebrew 安装则无需处理）：
 
-- 先打开一次 PasteAll，然后前往**系统设置 → 隐私与安全性**，点按**仍要打开**；**或者**
-- 在终端运行 `xattr -dr com.apple.quarantine /Applications/PasteAll.app`。
+- 在终端运行 `xattr -dr com.apple.quarantine /Applications/PasteAll.app`；**或者**
+- 先打开一次 PasteAll，然后前往**系统设置 → 隐私与安全性**，点按**仍要打开**。
 
 ## 设置
 

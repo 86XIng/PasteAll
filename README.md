@@ -31,17 +31,19 @@ brew install --cask 86xing/tap/paste-all
 
 Upgrade later with `brew upgrade --cask paste-all`.
 
-### Manual download
+### Disk image
 
-1. Download `PasteAll-<version>.zip` from the [latest release](https://github.com/86XIng/paste-all/releases/latest).
-2. Unzip it and move `PasteAll.app` to **Applications**.
+1. Download `PasteAll-<version>.dmg` from the [latest release](https://github.com/86XIng/PasteAll/releases/latest).
+2. Open it and drag **PasteAll** onto **Applications**. The image also contains a bilingual **Install Guide**.
+
+A `.zip` of the same app is attached to each release as well; it is what the Homebrew cask uses.
 
 ### First launch
 
 PasteAll is not yet notarized by Apple, so macOS blocks the first launch of a downloaded copy (Homebrew handles this for you):
 
-- Open PasteAll once, then go to **System Settings → Privacy & Security** and click **Open Anyway**, **or**
-- run `xattr -dr com.apple.quarantine /Applications/PasteAll.app` in Terminal.
+- run `xattr -dr com.apple.quarantine /Applications/PasteAll.app` in Terminal, **or**
+- open PasteAll once, then go to **System Settings → Privacy & Security** and click **Open Anyway**.
 
 ## Setup
 

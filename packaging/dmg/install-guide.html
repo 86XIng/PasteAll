@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Install PasteAll</title>
+<style>
+body { font-family: -apple-system, "Helvetica Neue", "PingFang SC", sans-serif; font-size: 13pt; line-height: 1.45; }
+h1 { font-size: 20pt; margin-bottom: 4pt; }
+h2 { font-size: 15pt; margin-top: 18pt; }
+/* No fixed colors: TextEdit adapts default text to dark mode, but not a
+   hard-coded background, which would leave light text on a light box. */
+code, pre { font-family: Menlo, monospace; font-size: 12pt; }
+pre { margin-left: 18pt; }
+.note { font-size: 11.5pt; }
+</style>
+</head>
+<body>
+
+<h1>Install PasteAll</h1>
+
+<h2>1. Copy to Applications</h2>
+<p>Drag <b>PasteAll</b> onto the <b>Applications</b> folder in this window.</p>
+
+<h2>2. Allow the first launch</h2>
+<p>PasteAll is not notarized by Apple yet, so macOS blocks it the first time. Allow it once, using either option:</p>
+<p><b>Option A – Terminal (recommended).</b> Open <b>Terminal</b> (Applications → Utilities), paste this line, and press Return:</p>
+<pre>xattr -dr com.apple.quarantine /Applications/PasteAll.app</pre>
+<p class="note">This only removes the “downloaded from the internet” mark from PasteAll. It prints nothing when it succeeds.</p>
+<p><b>Option B – System Settings.</b> Double-click PasteAll in Applications. When macOS says it cannot verify the app, click <b>Done</b>. Open <b>System Settings → Privacy &amp; Security</b>, scroll down, and click <b>Open Anyway</b>.</p>
+
+<h2>3. Set up</h2>
+<p>Open PasteAll. Its icon appears in the menu bar and a short guide asks for <b>Accessibility</b> permission, which PasteAll needs to handle <code>⌘V</code> in Finder.</p>
+<p>Optional: in <b>Settings → Finder Context Menu</b>, click <b>Turn On…</b> to add <b>Paste Clipboard as File</b> to Finder’s right-click menu.</p>
+
+<h2>Upgrading</h2>
+<p>Quit PasteAll, drag the new version into Applications to replace the old one, repeat step 2, then click <b>Re-authorize</b> when PasteAll asks.</p>
+
+<h2>Homebrew</h2>
+<p>Alternatively, install with Homebrew, which handles step 2 for you:</p>
+<pre>brew install --cask 86xing/tap/paste-all</pre>
+
+<p class="note">More information: https://github.com/86XIng/PasteAll</p>
+
+<hr>
+
+<h1>安装 PasteAll</h1>
+
+<h2>1. 拷贝到“应用程序”</h2>
+<p>把本窗口中的 <b>PasteAll</b> 拖到 <b>Applications（应用程序）</b> 文件夹上。</p>
+
+<h2>2. 允许首次打开</h2>
+<p>PasteAll 目前还没有经过 Apple 公证，macOS 会拦截第一次打开。请任选一种方式允许一次：</p>
+<p><b>方式 A：终端（推荐）。</b>打开<b>终端</b>（应用程序 → 实用工具），粘贴下面这行并按下 Return：</p>
+<pre>xattr -dr com.apple.quarantine /Applications/PasteAll.app</pre>
+<p class="note">这条命令只会移除 PasteAll 的“从互联网下载”标记，执行成功时不会有任何输出。</p>
+<p><b>方式 B：系统设置。</b>在“应用程序”中双击 PasteAll，macOS 提示无法验证时点按<b>完成</b>，然后打开<b>系统设置 → 隐私与安全性</b>，向下滚动并点按<b>仍要打开</b>。</p>
+
+<h2>3. 完成设置</h2>
+<p>打开 PasteAll，菜单栏会出现它的图标，使用指南会请求<b>辅助功能</b>权限——PasteAll 需要它在访达中处理 <code>⌘V</code>。</p>
+<p>可选：在<b>设置 → 访达右键菜单</b>中点按<b>开启…</b>，即可在访达右键菜单中使用<b>将剪贴板粘贴为文件</b>。</p>
+
+<h2>升级</h2>
+<p>退出 PasteAll，把新版本拖到“应用程序”中替换旧版本，重复第 2 步，然后在 PasteAll 提示时点按<b>重新授权</b>。</p>
+
+<h2>Homebrew</h2>
+<p>也可以用 Homebrew 安装，它会自动完成第 2 步：</p>
+<pre>brew install --cask 86xing/tap/paste-all</pre>
+
+<p class="note">更多信息：https://github.com/86XIng/PasteAll</p>
+
+</body>
+</html>

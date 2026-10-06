@@ -15,7 +15,8 @@ git push origin v0.2.0
 
 1. 运行全部测试。
 2. 用 `scripts/package-unsigned.sh` 构建 ad-hoc 签名的通用 App，版本号取自标签，构建号取自 `github.run_number`。
-3. 生成 `PasteAll-<版本号>.zip` 与 `.sha256`，创建 GitHub Release 并附上安装说明。
+3. 生成 `PasteAll-<版本号>.dmg`（拖拽安装，内含中英双语安装说明）和 `PasteAll-<版本号>.zip`（供 Homebrew cask 使用）以及各自的 `.sha256`，创建 GitHub Release 并附上安装说明。
+   DMG 布局由 [dmgbuild](https://pypi.org/project/dmgbuild/) 生成（版本固定在脚本中，自动装入临时 venv），配置见 `packaging/dmg/dmg-settings.py`，安装说明源文件为 `packaging/dmg/install-guide.html`。
 4. 如果配置了 `HOMEBREW_TAP_DEPLOY_KEY`，用 `scripts/render-cask.sh` 生成 cask 并推送到 tap 仓库。
 
 App 内的检查更新读取的是 GitHub 的 “latest release”，所以草稿和预发布版本不会推送给用户。
