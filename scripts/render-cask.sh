@@ -6,7 +6,7 @@ set -euo pipefail
 project_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 version="${1:-}"
 sha256="${2:-}"
-repository="${3:-86XIng/paste-all}"
+repository="${3:-86XIng/PasteAll}"
 bundle_id="${PASTEALL_BUNDLE_ID:-io.github.86xing.PasteAll}"
 
 [[ "$version" =~ ^[0-9]+\.[0-9]+(\.[0-9]+)?$ ]] || { echo "Invalid version: $version" >&2; exit 2; }

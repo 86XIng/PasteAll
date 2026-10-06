@@ -27,10 +27,10 @@ tap 仓库为 [`86XIng/homebrew-tap`](https://github.com/86XIng/homebrew-tap)。
 1. 生成密钥对：`ssh-keygen -t ed25519 -N "" -C "paste-all release" -f tap_deploy_key`
 2. 把公钥添加为 tap 仓库的可写 deploy key：
    `gh repo deploy-key add tap_deploy_key.pub --repo 86XIng/homebrew-tap --title "paste-all release" --allow-write`
-3. 把私钥保存为 `paste-all` 仓库的 secret：
-   `gh secret set HOMEBREW_TAP_DEPLOY_KEY --repo 86XIng/paste-all < tap_deploy_key`
+3. 把私钥保存为 `PasteAll` 仓库的 secret：
+   `gh secret set HOMEBREW_TAP_DEPLOY_KEY --repo 86XIng/PasteAll < tap_deploy_key`
 4. 删除本地的两个密钥文件。
-5. 如果 tap 仓库不叫 `86XIng/homebrew-tap`，在 `paste-all` 仓库添加 Actions variable `HOMEBREW_TAP_REPOSITORY`（例如 `owner/homebrew-tap`）。
+5. 如果 tap 仓库不叫 `86XIng/homebrew-tap`，在 `PasteAll` 仓库添加 Actions variable `HOMEBREW_TAP_REPOSITORY`（例如 `owner/homebrew-tap`）。
 
 需要轮换时，删除旧 deploy key 后重复以上步骤即可。
 

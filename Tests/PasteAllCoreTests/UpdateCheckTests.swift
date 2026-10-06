@@ -3,7 +3,7 @@ import XCTest
 @testable import PasteAllCore
 
 final class UpdateCheckTests: XCTestCase {
-    private let page = URL(string: "https://github.com/86XIng/paste-all/releases/tag/v1.2.0")!
+    private let page = URL(string: "https://github.com/86XIng/PasteAll/releases/tag/v1.2.0")!
 
     func testVersionParsingAcceptsTagsAndIgnoresSuffixes() throws {
         XCTAssertEqual(try XCTUnwrap(AppVersion("v1.2.3")).components, [1, 2, 3])
@@ -51,7 +51,7 @@ final class UpdateCheckTests: XCTestCase {
 
     func testDecodesGitHubReleaseJSON() throws {
         let json = """
-        {"tag_name": "v1.3.0", "html_url": "https://github.com/86XIng/paste-all/releases/tag/v1.3.0",
+        {"tag_name": "v1.3.0", "html_url": "https://github.com/86XIng/PasteAll/releases/tag/v1.3.0",
          "body": null, "draft": false, "prerelease": false, "assets": []}
         """
         let release = try JSONDecoder().decode(ReleaseInfo.self, from: Data(json.utf8))

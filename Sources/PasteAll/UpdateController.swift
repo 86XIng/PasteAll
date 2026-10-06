@@ -7,7 +7,7 @@ import PasteAllCore
 final class UpdateController: ObservableObject {
     static let shared = UpdateController()
 
-    static let repository = "86XIng/paste-all"
+    static let repository = "86XIng/PasteAll"
     static let caskToken = "paste-all"
     static var upgradeCommand: String { "brew upgrade --cask \(caskToken)" }
 
